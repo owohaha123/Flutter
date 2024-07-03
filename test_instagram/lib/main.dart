@@ -11,13 +11,35 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
+
+  // 하단 네비게이션 바 내 tabbar 사용을 위한 controller
+  late TabController _tabController;
+  int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 5, vsync: this); //SingleTickerProviderStateMixin 를 사용해줘야 this 가 인식됨
+    _tabController.addListener(() => setState(() => _selectedIndex = _tabController.index));
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     //double screenHeight = MediaQuery.of(context).size.height; // 화면의 높이
-
     //SystemChrome.setEnabledSystemUIOverlays([]);
 
     return MaterialApp(
@@ -29,6 +51,8 @@ class MyApp extends StatelessWidget {
           );
         },*/
         home: Scaffold(
+            //--------- status bar 추가?
+            //--------- 상단 app bar
             appBar: AppBar(
               //toolbarHeight: screenHeight/11,
               backgroundColor: Colors.black,
@@ -55,15 +79,98 @@ class MyApp extends StatelessWidget {
 
             ),
 
-            body:Contents()
-
+            // contents
+            //body:Contents(),
+            body: _selectedIndex == 0
+                ? Contents()
+                : _selectedIndex == 1
+                ? tabContainer(context, Colors.indigo.shade100, "b")
+                : _selectedIndex == 2
+                ? tabContainer(context, Colors.indigo.shade200, "c")
+                : _selectedIndex == 3
+                ? tabContainer(context, Colors.indigo.shade300, "d")
+                : tabContainer(context, Colors.blueGrey, "Settings Tab"),
+            //--------- 하단 navigation bar
+            bottomNavigationBar:Container(
+              //color: Colors.black,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.white60,
+                    width: 1.0, // 두께 설정
+                  ),
+                ),
+              ),
+              child: SizedBox(
+                height: 80,
+                child: TabBar(
+                  indicatorColor: Colors.transparent,
+                  labelColor: Colors.white,
+                  unselectedLabelColor: Colors.white60,
+                  controller: _tabController,
+                  tabs: <Widget>[
+                    Tab(
+                      icon: FaIcon(
+                        //_selectedIndex == 0 ? FontAwesomeIcons.house : FontAwesomeIcons.house,
+                        FontAwesomeIcons.house, size: 28
+                      ),
+                    ),
+                    Tab(
+                      icon: Icon(
+                        //_selectedIndex == 1 ? Icons.chat : Icons.chat_outlined,
+                          FontAwesomeIcons.magnifyingGlass, size: 28
+                      ),
+                    ),
+                    Tab(
+                      icon: Icon(
+                        //_selectedIndex == 2 ? Icons.settings : Icons.settings_outlined,
+                        FontAwesomeIcons.video, size: 28
+                      ),
+                    ),
+                    Tab(
+                      icon: Icon(
+                        //_selectedIndex == 3 ? Icons.settings : Icons.settings_outlined,
+                        FontAwesomeIcons.paperPlane, size: 28
+                      ),
+                    ),
+                    Tab(
+                      icon: ClipOval(
+                        child: Image.asset(
+                          'assets/01.gif',
+                          height: 35,
+                          width: 35,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+            ),
+        ),
         )
 
     );
   }
 }
 
-// 커스텀위젯
+// 네비게이션 바 클릭 시 보여주는 컨텐츠
+Container tabContainer(BuildContext context, Color tabColor, String tabText) {
+  return Container(
+    width: MediaQuery.of(context).size.width,
+    height: MediaQuery.of(context).size.height,
+    color: tabColor,
+    child: Center(
+      child: Text(
+        tabText,
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      )
+    )
+  );
+}
+  // 커스텀위젯
 // 일단 위 내용을 작성해보고...
 class Contents extends StatelessWidget {
   const Contents({super.key});
