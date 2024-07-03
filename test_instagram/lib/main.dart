@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:flutter/services.dart';
 import 'dart:math';
 
 void main() {
@@ -15,17 +16,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height; // 화면의 높이
+    //double screenHeight = MediaQuery.of(context).size.height; // 화면의 높이
+
+    //SystemChrome.setEnabledSystemUIOverlays([]);
+
     return MaterialApp(
         // 폰트 사이즈 유지
-        builder: (context, child) {
+        /*builder: (context, child) {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1)),
             child: child!,
           );
-        },
+        },*/
         home: Scaffold(
             appBar: AppBar(
+              //toolbarHeight: screenHeight/11,
               backgroundColor: Colors.black,
               iconTheme: IconThemeData(color: Colors.white),
               //title: Image.asset('assets/logo.png' , width: 200),
@@ -75,6 +80,7 @@ class Contents extends StatelessWidget {
                   story()
               ],
             ),*/
+
             Expanded(
                 child: ListView(
                   children: [
@@ -103,64 +109,70 @@ class Contents extends StatelessWidget {
       ],
     );
   }
+
   // 스토리
   Widget story() {
-    List nameList = ["내스토리", "gamza", "oksusu"];
-    List profileList = ["assets/01.gif", "assets/02.png", "assets/03.png"];
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        for (int i = 0; i < nameList.length; i++)
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                /*
-                  //border 를 사용한 테두리
-                  child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(90),
-                    border: Border.all(color: Colors.pinkAccent, width: 3),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: Image.asset(profileList[i], width: 60),
-                  ),
-                ),*/
-                // stack 을 사용한 테두리
-                child: Stack(
-                  children: [
-                    SizedBox(
-                        width: 90,
-                        //height: 65,
-                        //child: Image.asset('assets/border.jpg')
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(45),
-                          child: Image.asset('assets/border.jpg'),
-                        ),
-                    ),
-                    Positioned(
-                      top: 4.5,
-                      left: 5.5,
-                        child: SizedBox(
+    List nameList = ["내 스토리", "gamza", "oksusu", "gamza", "oksusu", "gamza", "oksusu"];
+    List profileList = ["assets/01.gif", "assets/02.png", "assets/03.png", "assets/02.png", "assets/03.png", "assets/02.png", "assets/03.png"];
+    return Container(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,// 가로 스크롤
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (int i = 0; i < nameList.length; i++)
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                    /*
+                      //border 를 사용한 테두리
+                      child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(90),
+                        border: Border.all(color: Colors.pinkAccent, width: 3),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: Image.asset(profileList[i], width: 60),
+                      ),
+                    ),*/
+                    // stack 을 사용한 테두리
+                    child: Stack(
+                      children: [
+                        SizedBox(
                             width: 80,
-                            //height: 60,
+                            //height: 65,
+                            //child: Image.asset('assets/border.jpg')
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(60),
-                              child: Image.asset(profileList[i]),
+                              borderRadius: BorderRadius.circular(40),
+                              child: Image.asset('assets/border.jpg'),
                             ),
+                        ),
+                        Positioned(
+                          top: 4.5,
+                          left: 5,
+                            child: SizedBox(
+                                width: 70,
+                                //height: 60,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(35),
+                                  child: Image.asset(profileList[i]),
+                                ),
+                            )
                         )
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 0, 0, 10),
-                child: Text(nameList[i], style: TextStyle(color: Colors.white, fontSize: 15)),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 5, 0, 10),
+                    child: Text(nameList[i], style: TextStyle(color: Colors.white, fontSize: 15)),
+                  )
+                ],
               )
-            ],
-          )
-      ],
+          ],
+        )
+    )
     );
   }
 
@@ -170,17 +182,17 @@ class Contents extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
-            padding: const EdgeInsets.fromLTRB(10,0,10,10),
+            padding: const EdgeInsets.fromLTRB(5,10,10,10),
             child : ClipRRect(
                 borderRadius: BorderRadius.circular(360.0),
-                child: Image.asset('assets/01.gif', width: 45,)
+                child: Image.asset('assets/01.gif', width: 50,)
             )
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 13),'goguma_111'),
-            Text(style: TextStyle(color: Colors.white, fontSize: 13), '서울')
+            Text(style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 17),'goguma_111'),
+            Text(style: TextStyle(color: Colors.white, fontSize: 15), '서울')
           ],
         ),
         Spacer(), // 우측으로 남은 공간을 차지
@@ -216,20 +228,20 @@ class Contents extends StatelessWidget {
       children: [
         Padding(
             padding: const EdgeInsets.fromLTRB(10,10,15,10),
-            child: Icon(Icons.favorite_border, color: Colors.white)
+            child: Icon(Icons.favorite_border, color: Colors.white, size: 35,)
         ),
         Padding(
             padding: const EdgeInsets.fromLTRB(0,10,15,10),
-            child: FaIcon(FontAwesomeIcons.comment, color: Colors.white)
+            child: FaIcon(FontAwesomeIcons.comment, color: Colors.white, size: 30,)
         ),
         Padding(
             padding: const EdgeInsets.fromLTRB(0,10,15,10),
-            child: FaIcon(FontAwesomeIcons.paperPlane, color: Colors.white)
+            child: FaIcon(FontAwesomeIcons.paperPlane, color: Colors.white, size: 28,)
         ),
         Spacer(), // 우측으로 남은 공간을 차지
         Padding(
             padding: const EdgeInsets.fromLTRB(0,10,10,10),
-            child: FaIcon(FontAwesomeIcons.bookmark, color: Colors.white)
+            child: FaIcon(FontAwesomeIcons.bookmark, color: Colors.white, size: 30,)
         ),
 
       ],
@@ -243,15 +255,15 @@ class Contents extends StatelessWidget {
       children: [
         Padding(
             padding: const EdgeInsets.fromLTRB(10,10,0,5),
-            child:Text(style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 16), 'gamza님이 좋아합니다')
+            child:Text(style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 19), 'gamza님이 좋아합니다')
         ),
         Padding(
             padding: const EdgeInsets.fromLTRB(10,0,10,5),
-            child:Text(style: TextStyle(color: Colors.white, fontSize: 13),'goguma_111 오랜만의 업로드')
+            child:Text(style: TextStyle(color: Colors.white, fontSize: 17),'goguma_111 춘식이와 함께~!!🥰')
         ),
         Padding(
             padding: const EdgeInsets.fromLTRB(10,0,0,20),
-            child:Text(style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 12), '...더보기')
+            child:Text(style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 17), '...더보기')
         )
       ],
     );
@@ -273,11 +285,12 @@ class _CarouselWidget extends State<CarouselWidget> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height; // 화면의 높이
+    //double screenWidth = MediaQuery.of(context).size.width ;
 
-    List<String> images = ["assets/01.gif", "assets/01.gif", "assets/01.gif"];
+    List<String> images = ["assets/content.jpg", "assets/content.jpg", "assets/content.jpg"];
     return Stack(
           children: [
-            slider(images, screenHeight / 2),
+            slider(images, screenHeight / 2.3),
             Positioned.fill(
               //slider 의 높이를 Stack 의 크기만큼 늘려주기 위해서 Positioned.fill 사용함
               child: Align(
@@ -291,13 +304,14 @@ class _CarouselWidget extends State<CarouselWidget> {
 
   // 사진을 슬라이드하는 화면
   Widget slider(List<String> images, height) => CarouselSlider(
-    items: images.map((image) => Image.asset(image)).toList(), // 이미지 리스트를 Image 위젯으로 변환
+    items: images.map((image) => Image.asset(image, fit: BoxFit.cover, width: double.infinity)).toList(), // 이미지 리스트를 Image 위젯으로 변환
     options: CarouselOptions(
       height: height, // height 와 viewportFraction 을 기준으로 이미지의 크기가 설정됨.
       autoPlay: false,
       viewportFraction: 1, // 각 페이지가 차지하는 viewport의 정도임. 0.8로 설정하면 Indicator 가 없는 슬라이드 구성가능함.
       enlargeCenterPage: false, // 이미지보다 화면이 클 수 있는지 설정
       initialPage: 0, // 초기 페이지 인덱스
+      //aspectRatio: 16 / 9, // 이미지의 가로:세로 비율을 16:9로 설정하여 화면에 꽉 차도록 함
       onPageChanged: (index, reason) => setState(() {
         activeIndex = index; // 페이지가 변경될 때, indicator 의 인덱스를 변경함.
       }),
